@@ -38,8 +38,6 @@ struct Tracks: Codable, Hashable {
     let items: [AudioTrack]
 }
 
-
-
 struct NewReleases: Codable {
     let albums: Albums
 }

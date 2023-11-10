@@ -26,7 +26,7 @@ class PlaylistViewModel: ObservableObject {
                     self?.playlistDetails = playlistDetails
                 }
             case .failure(let error):
-                print("Failed to get new releases: \(error.localizedDescription)")
+                print("Failed to get playlist details: \(error.localizedDescription)")
             }
         }
     }

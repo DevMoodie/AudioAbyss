@@ -19,7 +19,7 @@ class MainMenuViewModel: ObservableObject {
         fetchRecommendedGenres()
     }
     
-    private func fetchNewReleases() {
+    func fetchNewReleases() {
         NetworkManager.shared.getNewReleases { [weak self] result in
             switch result {
             case .success(let newReleases):
@@ -32,7 +32,7 @@ class MainMenuViewModel: ObservableObject {
         }
     }
     
-    private func fetchFeaturedPlaylists() {
+    func fetchFeaturedPlaylists() {
         NetworkManager.shared.getFeaturedPlaylists { [weak self] result in
             switch result {
             case .success(let featuredPlaylists):
@@ -40,7 +40,7 @@ class MainMenuViewModel: ObservableObject {
                     self?.featuredPlaylists = featuredPlaylists
                 }
             case .failure(let error):
-                print("Failed to get new releases: \(error.localizedDescription)")
+                print("Failed to get featured playlists: \(error.localizedDescription)")
             }
         }
     }
@@ -65,11 +65,11 @@ class MainMenuViewModel: ObservableObject {
                                 self?.recommendations = recommendations
                             }
                         case .failure(let error):
-                            print("Failed to get new releases: \(error.localizedDescription)")
+                            print("Failed to get recommendations: \(error.localizedDescription)")
                         }
                     }
                 case .failure(let error):
-                    print("Failed to get new releases: \(error.localizedDescription)")
+                    print("Failed to get recommended genres: \(error.localizedDescription)")
                 }
             }
         }

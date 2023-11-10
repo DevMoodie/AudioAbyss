@@ -13,3 +13,11 @@ struct Artist: Codable, Hashable {
     let type: String
     let external_urls: [String: String]
 }
+
+struct SearchArtist: Codable, Hashable {
+    let id: String
+    let name: String
+    let type: String
+    let external_urls: [String: String]
+    let images: [ImageResponse]
+}

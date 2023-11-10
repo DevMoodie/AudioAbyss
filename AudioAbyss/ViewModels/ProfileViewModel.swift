@@ -14,7 +14,7 @@ class ProfileViewModel: ObservableObject {
         fetchProfile()
     }
     
-    private func fetchProfile() {
+    func fetchProfile() {
         NetworkManager.shared.getCurrentUser { [weak self] result in
             DispatchQueue.main.async {
                 switch result {

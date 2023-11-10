@@ -10,29 +10,11 @@ import SDWebImageSwiftUI
 
 struct MainMenuView: View {
     @StateObject var mainMenuVM: MainMenuViewModel = MainMenuViewModel()
-    @StateObject var profileVM: ProfileViewModel = ProfileViewModel()
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack (alignment: .leading) {
-                    if let user = profileVM.user {
-                        HStack (alignment: .top) {
-                            if let urlString = user.images.first?.url, let imageURL = URL(string: urlString) {
-                                WebImage(url: imageURL)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 45.0, height: 45.0)
-                                    .cornerRadius(5.0)
-                            }
-                            VStack (alignment: .leading) {
-                                Text("\(user.display_name)")
-                                    .font(.custom("Teko", size: 18.0).bold())
-                                Text("\(user.product)")
-                                    .font(.custom("Teko", size: 13.0))
-                            }
-                        }
-                    }
                     Text("The Best New Releases")
                         .font(.custom("Teko", size: 25.0).bold())
                     ScrollView (.horizontal, showsIndicators: false) {
@@ -59,8 +41,12 @@ struct MainMenuView: View {
                                     }
                                 }
                             } else {
-                                Text("Failed to load new releases!")
+                                Text("Refresh")
                                     .font(.custom("Teko", size: 20.0).bold())
+                                    .padding()
+                                    .onTapGesture {
+                                        mainMenuVM.fetchNewReleases()
+                                    }
                             }
                         }
                     }
@@ -84,17 +70,23 @@ struct MainMenuView: View {
                                             }
                                             Text("\(playlist.name)")
                                                 .font(.custom("Teko", size: 20.0).bold())
+                                                .foregroundStyle(.foreground)
                                                 .lineLimit(1)
                                             Text("\(playlist.owner.display_name)")
                                                 .font(.custom("Teko", size: 15.0))
+                                                .foregroundStyle(.foreground)
                                                 .lineLimit(1)
                                         }
                                         .frame(width: 150)
                                     }
                                 }
                             } else {
-                                Text("Failed to load new releases!")
+                                Text("Refresh")
                                     .font(.custom("Teko", size: 20.0).bold())
+                                    .padding()
+                                    .onTapGesture {
+                                        mainMenuVM.fetchFeaturedPlaylists()
+                                    }
                             }
                         }
                     }
@@ -107,22 +99,26 @@ struct MainMenuView: View {
                         LazyHStack {
                             if let recommendations = mainMenuVM.recommendations {
                                 ForEach(recommendations.tracks, id: \.self) { track in
-                                    VStack (alignment: .leading) {
-                                        if let urlString = track.album?.images.first?.url, let imageURL = URL(string: urlString) {
-                                            WebImage(url: imageURL)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 150, height: 150)
-                                                .cornerRadius(25.0)
+                                    NavigationLink(destination: PlayerView(playerVM: PlayerViewModel(track: track))) {
+                                        VStack (alignment: .leading) {
+                                            if let urlString = track.album?.images.first?.url, let imageURL = URL(string: urlString) {
+                                                WebImage(url: imageURL)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 150, height: 150)
+                                                    .cornerRadius(25.0)
+                                            }
+                                            Text("\(track.album?.name ?? "")")
+                                                .font(.custom("Teko", size: 20.0).bold())
+                                                .foregroundStyle(.foreground)
+                                                .lineLimit(1)
+                                            Text("\(track.artists.first?.name ?? "")")
+                                                .font(.custom("Teko", size: 15.0))
+                                                .foregroundStyle(.foreground)
+                                                .lineLimit(1)
                                         }
-                                        Text("\(track.album?.name ?? "")")
-                                            .font(.custom("Teko", size: 20.0).bold())
-                                            .lineLimit(1)
-                                        Text("\(track.artists.first?.name ?? "")")
-                                            .font(.custom("Teko", size: 15.0))
-                                            .lineLimit(1)
+                                        .frame(width: 150)
                                     }
-                                    .frame(width: 150)
                                 }
                             } else {
                                 Text("Refresh")
@@ -140,6 +136,9 @@ struct MainMenuView: View {
                 }
                 .padding()
             }
+            .navigationTitle("Discover")
+            .navigationBarTitleDisplayMode(.inline)
+            .scrollIndicators(.hidden)
         }
     }
 }
