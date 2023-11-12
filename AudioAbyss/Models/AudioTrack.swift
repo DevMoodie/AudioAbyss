@@ -10,6 +10,7 @@ import Foundation
 struct AudioTrack: Codable, Hashable {
     let album: Album?
     let artists: [Artist]
+    let preview_url: String?
     let available_markets: [String]
     let disc_number: Int
     let duration_ms: Int

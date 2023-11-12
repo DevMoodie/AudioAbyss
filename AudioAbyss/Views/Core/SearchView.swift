@@ -87,7 +87,9 @@ struct SearchView: View {
                                             ForEach(section.results, id: \.self) { result in
                                                 switch result {
                                                 case .track(let track):
-                                                    SearchResultView(urlString: track.album?.images.first?.url, primaryName: track.name, secondaryName: track.artists.first?.name, artist: false)
+                                                    NavigationLink(destination: PlayerView(playerVM: PlayerViewModel(track: track))) {
+                                                        SearchResultView(urlString: track.album?.images.first?.url, primaryName: track.name, secondaryName: track.artists.first?.name, artist: false)
+                                                    }
                                                 case .artist(let artist):
                                                     Link(destination: URL(string: artist.external_urls["spotify"] ?? "")!) {
                                                         SearchResultView(urlString: artist.images.first?.url, primaryName: artist.name, artist: true)

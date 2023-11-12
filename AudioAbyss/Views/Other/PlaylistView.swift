@@ -37,7 +37,7 @@ struct PlaylistView: View {
                         .padding(.bottom)
                     ZStack {
                         RoundedRectangle(cornerRadius: 25.0)
-                            .frame(width: 100, height: 40)
+                            .frame(width: 80, height: 40)
                             .foregroundStyle(.foreground)
                         HStack {
                             Image(systemName: "play.fill")
@@ -45,7 +45,7 @@ struct PlaylistView: View {
                                 .scaledToFit()
                                 .frame(width: 15, height: 15)
                                 .foregroundStyle(.background)
-                            Text("Play All")
+                            Text("Play")
                                 .font(.custom("Teko", size: 20.0))
                                 .foregroundStyle(.background)
                         }
